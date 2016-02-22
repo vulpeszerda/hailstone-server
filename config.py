@@ -5,8 +5,8 @@ REDIS_INFO = {
 # Used to filter vmnames from redis keys.
 REDIS_KEY_PREFIX = 'hailstonevm:'
 
-VM_PREFIX = 'shadyvm'
-SCRIPT_ROOT = '/home/daftshady/hailstone/hailstone-vm/script/'
+VM_PREFIX = 'prodvm'
+SCRIPT_ROOT = '/vol/hailstone/hailstone-vm/script/'
 RUN_SCRIPT = SCRIPT_ROOT + 'startvm.sh'
 RESTORE_SCRIPT = SCRIPT_ROOT + 'restore-snapshot.sh'
 STOP_SCRIPT = SCRIPT_ROOT + 'stopvm.sh'
@@ -22,5 +22,15 @@ APP_PACKAGES = [
     'com.ketchapp.stickhero',
     'com.thefancy.app',
     'com.vimeo.android.videoapp',
-    'com.etsy.android'
+    'com.etsy.android',
+    'com.treemolabs.apps.cnet',
+    'com.duolingo',
+    'com.fitbit.FitbitMobile',
+    'com.kokteyl.goal',
+    'com.marvel.comics',
+    'com.shazam.android',
+    'com.soundcloud.android',
+    'com.loudcrow.marvelavengers',
+    'com.urbandroid.lux',
+    'com.contextlogic.wish'
 ]

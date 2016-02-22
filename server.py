@@ -13,7 +13,8 @@ from tornado.ioloop import IOLoop
 from subprocess import call
 from config import (
     REDIS_INFO, REDIS_KEY_PREFIX, VM_PREFIX, SCRIPT_ROOT,
-    RUN_SCRIPT, RESTORE_SCRIPT, STOP_SCRIPT
+    RUN_SCRIPT, RESTORE_SCRIPT, STOP_SCRIPT, RUN_APK_SCRIPT,
+    APP_PACKAGES
 )
 
 
@@ -78,7 +79,16 @@ class AcquireHandler(tornado.web.RequestHandler):
         set_on(vm_name)
         self.write(vm_name + ',' + port)
         vm_idx = vm_name.replace(VM_PREFIX, '')
-        result, e = yield call_subprocess(RESTORE_SCRIPT + ' ' + vm_idx)
+
+        snapshots = [
+            'bd6d4b04-f05d-4efa-ba93-b6e314c4755b',
+            '5997d88b-2c17-467b-a5be-e3f3c08c3519',
+            '6cfc6323-9d26-410c-85b1-192f99c26500'
+        ]
+
+        result, e = yield call_subprocess(
+            RESTORE_SCRIPT + ' ' + vm_idx + ' ' + snapshots[int(vm_idx)])
+
         # NOTE that this prcoess will not be flushed automatically.
         # Should fix it to prevent potential memory leak.
         call([RUN_SCRIPT, vm_idx])
