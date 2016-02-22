@@ -114,10 +114,30 @@ class PingHandler(tornado.web.RequestHandler):
         self.write('success')
 
 
+class ExecuteHandler(tornado.web.RequestHandler):
+    @coroutine
+    def get(self):
+        vm_name = self.get_argument('name')
+        app_idx = self.get_argument('idx')
+        try:
+            cmd = RUN_APK_SCRIPT + ' ' + \
+                vm_name.replace(VM_PREFIX, '') + ' ' + APP_PACKAGES[int(app_idx)]
+        except (IndexError, ValueError):
+            self.set_status(400)
+            self.write('Invalid access')
+            return
+
+        result, e = yield call_subprocess(cmd)
+
+        self.write('App has been executed')
+        self.finish()
+
+
 if __name__ == "__main__":
     application = tornado.web.Application([
         (r'/vm/acquire/?', AcquireHandler),
         (r'/vm/release/?', ReleaseHandler),
+        (r'/vm/execute/?', ExecuteHandler),
         (r'/vm/ping/?', PingHandler)
     ])
     application.listen(3800)
